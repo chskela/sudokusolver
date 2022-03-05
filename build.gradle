@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id 'application'
 }
 
 group 'com.chskela'
@@ -9,6 +10,15 @@ repositories {
     mavenCentral()
 }
 
+mainClassName = 'com.chskela.sudokusolver.Main'
+
+jar {
+    manifest{
+        attributes 'Main-Class': mainClassName
+    }
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
+
