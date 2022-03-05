@@ -10,7 +10,7 @@ fun main() {
     println(input)
 }
 
-private fun readInput(): Map<Pair<Int, Int>, Int> = File("input")
+private fun readInput(): Map<Coordinate, Int> = File("input")
     .readLines()
     .withIndex()
     .flatMap { indexedValue ->
@@ -21,8 +21,9 @@ private fun readInput(): Map<Pair<Int, Int>, Int> = File("input")
             .filter { it.value != '.' }
             .map { indexedChar ->
                 val yCoordinate = indexedChar.index
+                val coordinate = Coordinate(xCoordinate, yCoordinate)
                 val number = Character.getNumericValue(indexedChar.value)
-                (xCoordinate to yCoordinate) to number
+                coordinate to number
             }
     }
     .toMap()
