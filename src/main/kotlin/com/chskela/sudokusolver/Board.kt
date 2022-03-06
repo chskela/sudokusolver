@@ -1,23 +1,27 @@
 package com.chskela.sudokusolver
 
+import com.chskela.sudokusolver.Utils.colCoordinateGenerator
+import com.chskela.sudokusolver.Utils.rowCoordinateGenerator
+import com.chskela.sudokusolver.Utils.squareCoordinateGenerator
+
 class Board(
     private val input: Map<Coordinate, Int>,
-    private val solution: Map<Coordinate, Int>
+    private val solution: Map<Coordinate, Int>,
 ) {
 
     fun checkSolution(): CheckOutcome = (0..8).fold(CheckOutcome.Ok) { acc, i ->
-        val checkL = checkLine(i)
         val checkR = checkRow(i)
+        val checkC = checkCol(i)
         val checkS = checkSquare(i)
-        if (checkL != CheckOutcome.Ok) return@fold checkL
         if (checkR != CheckOutcome.Ok) return@fold checkR
+        if (checkC != CheckOutcome.Ok) return@fold checkC
         if (checkS != CheckOutcome.Ok) return@fold checkS
         acc
     }
 
-    private fun checkLine(
-        lineNumber: Int,
-        coordinateGenerator: (Int) -> Coordinate = { index -> Coordinate(lineNumber, index) }
+    private fun checkRow(
+        rowNumber: Int,
+        coordinateGenerator: (Int) -> Coordinate = rowCoordinateGenerator(rowNumber)
     ): CheckOutcome = (0..7).fold(CheckOutcome.Ok) { _, i ->
         val checkedCoordinate = coordinateGenerator(i)
         val checkedValue =
@@ -32,12 +36,7 @@ class Board(
         }
     }
 
-    private fun checkRow(lineNumber: Int) = checkLine(lineNumber) { index -> Coordinate(index, lineNumber) }
+    private fun checkCol(colNumber: Int) = checkRow(colNumber, colCoordinateGenerator(colNumber))
 
-    private fun checkSquare(lineNumber: Int) = checkLine(lineNumber) { index ->
-        Coordinate(
-            (lineNumber / 3) * 3 + index / 3,
-            (lineNumber % 3) * 3 + index % 3
-        )
-    }
-}
+    private fun checkSquare(squareNumber: Int) = checkRow(squareNumber, squareCoordinateGenerator(squareNumber))
+ }
