@@ -2,15 +2,22 @@
 
 package com.chskela.sudokusolver
 
-import java.io.File
-
 fun main() {
     val input = readInput("input")
     val solution = readInput("solution")
 
     println(input)
     println(solution)
-    println(checkLine(1, input, solution))
+    println(checkSolution(input, solution))
+}
+
+private fun checkSolution(
+    input: Map<Coordinate, Int>,
+    solution: Map<Coordinate, Int>
+): CheckOutcome = (0..8).fold(CheckOutcome.Ok) { acc, i ->
+    val check = checkLine(i, input, solution)
+    if (check != CheckOutcome.Ok) return@fold check
+    acc
 }
 
 private fun checkLine(
@@ -29,22 +36,4 @@ private fun checkLine(
     }
 }
 
-
-private fun readInput(fileName: String): Map<Coordinate, Int> = File(fileName)
-    .readLines()
-    .withIndex()
-    .flatMap { indexedValue ->
-        val xCoordinate = indexedValue.index
-        indexedValue.value
-            .toCharArray()
-            .withIndex()
-            .filter { it.value != '.' }
-            .map { indexedChar ->
-                val yCoordinate = indexedChar.index
-                val coordinate = Coordinate(xCoordinate, yCoordinate)
-                val number = Character.getNumericValue(indexedChar.value)
-                coordinate to number
-            }
-    }
-    .toMap()
 
