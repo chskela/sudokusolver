@@ -1,9 +1,10 @@
 package com.chskela.sudokusolver
 
-import java.io.File
 
-fun readInput(fileName: String): Map<Coordinate, Int> = File(fileName)
-    .readLines()
+typealias GameBoard = Map<Coordinate, Int>
+
+fun String.asGameBoard(): GameBoard = this
+    .lines()
     .withIndex()
     .flatMap { indexedValue ->
         val xCoordinate = indexedValue.index

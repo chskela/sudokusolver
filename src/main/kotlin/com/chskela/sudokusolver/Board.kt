@@ -1,12 +1,8 @@
 package com.chskela.sudokusolver
 
-import com.chskela.sudokusolver.Utils.colCoordinateGenerator
-import com.chskela.sudokusolver.Utils.rowCoordinateGenerator
-import com.chskela.sudokusolver.Utils.squareCoordinateGenerator
-
 class Board(
-    private val input: Map<Coordinate, Int>,
-    private val solution: Map<Coordinate, Int>,
+    private val input: GameBoard,
+    private val solution: GameBoard,
 ) {
 
     fun checkSolution(): CheckOutcome = (0..8).fold(CheckOutcome.Ok) { acc, i ->
@@ -21,7 +17,7 @@ class Board(
 
     private fun checkRow(
         rowNumber: Int,
-        coordinateGenerator: (Int) -> Coordinate = rowCoordinateGenerator(rowNumber)
+        coordinateGenerator: Generator = rowCoordinateGenerator(rowNumber)
     ): CheckOutcome = (0..7).fold(CheckOutcome.Ok) { _, i ->
         val checkedCoordinate = coordinateGenerator(i)
         val checkedValue =
