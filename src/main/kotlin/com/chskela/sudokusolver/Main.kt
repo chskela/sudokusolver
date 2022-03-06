@@ -17,15 +17,15 @@ private fun checkLine(
     lineNumber: Int,
     input: Map<Coordinate, Int>,
     solution: Map<Coordinate, Int>
-): Boolean = (0..8).fold(true) { _, i ->
+): CheckOutcome = (0..8).fold(CheckOutcome.Ok) { _, i ->
     val checkedCoordinate = Coordinate(lineNumber, i)
-    val checkedValue = input[checkedCoordinate] ?: solution[checkedCoordinate] ?: return@fold false
+    val checkedValue = input[checkedCoordinate] ?: solution[checkedCoordinate] ?: return@fold CheckOutcome.Incomplete
 
-    (i + 1..8).fold(true) { _, j ->
+    (i + 1..8).fold(CheckOutcome.Ok) { _, j ->
         val internalCoordinate = Coordinate(lineNumber, j)
-        val internalValue = input[internalCoordinate] ?: solution[internalCoordinate] ?: return false
-        if (checkedValue == internalValue) return false
-        true
+        val internalValue = input[internalCoordinate] ?: solution[internalCoordinate] ?: return CheckOutcome.Incomplete
+        if (checkedValue == internalValue) return CheckOutcome.Failure
+        CheckOutcome.Ok
     }
 }
 
