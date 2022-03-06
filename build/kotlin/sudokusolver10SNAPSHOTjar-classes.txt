@@ -1,1 +1,0 @@
-/home/aleks/IdeaProjects/sudokusolver/build/classes/kotlin/main/com/chskela/sudokusolver/Main.class
